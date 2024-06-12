@@ -4,12 +4,14 @@
 
 .main {
   height: 100%;
+  margin: 16px;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.search-box {
-  width: 200px;
+.result-box {
+  padding: 0;
+  margin: 22px;
 }

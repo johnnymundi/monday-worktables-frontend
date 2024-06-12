@@ -1,23 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Search } from "monday-ui-react-core/next";
+import { Box, Flex, Loader, Text } from "monday-ui-react-core";
 import "./App.css";
 
+import { ThemeProvider } from "monday-ui-react-core";
 import mondaySdk from "monday-sdk-js";
-import { Box, Flex, Loader } from "monday-ui-react-core";
+
+import SeachBox from "./components/search-box/SearchBox";
+import ResultBox from "./components/resultBox/ResultBox";
+
 const monday = mondaySdk();
 
+const useGetContext = () => {
+  const [context, setContext] = useState({});
+
+  useEffect(() => {
+    monday.listen("context", (res) => {
+      setContext(res.data);
+    });
+  }, []);
+
+  return context;
+};
+
 function App() {
+  const context = useGetContext();
   const [boardData, setBoardData] = useState<any>(null); // Explicit any type
   const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para armazenar o termo de pesquisa
   const [resultData, setResultData] = useState<any[]>([]); // Explicit any array type
   const [columns, setColumns] = useState<any[]>([]);
+  const [regions, setRegions] = useState<any[]>([]);
+  const [subRegions, setSubRegions] = useState<any[]>([]);
 
   const main = `query {
     boards(ids: 6756792083) {
       columns {
         id
         title
+        settings_str
       }
       items_page (limit: 50){
         items {
@@ -41,6 +61,7 @@ function App() {
           apiVersion: "2023-10",
         });
         setBoardData(columnsRes.data.boards[0]);
+
         setColumns(
           columnsRes.data.boards[0].columns
             .filter(
@@ -51,6 +72,11 @@ function App() {
             })
         );
         console.log("columnsRes", columnsRes);
+        console.log("labels", columnsRes.data.boards[0].columns[1]);
+        //const columnLabels = {};
+
+        setRegions(columnsRes.data.boards[0].columns[1]);
+        setSubRegions(columnsRes.data.boards[0].columns[2]);
       } catch (error: any) {
         console.error("Error fetching data:", error);
       }
@@ -118,30 +144,15 @@ function App() {
   }
 
   return (
-    <div className="main">
-      <div className="search-box">
-        <Search
-          placeholder="Busque informações do país"
-          onChange={(e) => setSearchTerm(e)}
-        />
+    <ThemeProvider
+      themeConfig={context.themeConfig}
+      systemTheme={context.theme}
+    >
+      <div className="main">
+        <SeachBox searchTerm={searchTerm} onSearchTermChange={setSearchTerm} />
+        <ResultBox resultData={resultData} />
       </div>
-      <Box textColor="Box-module_textPrimaryTextColor" className="result-box">
-        {resultData.length > 0 ? (
-          resultData.map((item: any) => (
-            <Box key={item.id}>
-              <h3>{item.name}</h3>
-              {/* {item.column_values.map((column: any) => (
-                <Text type={Text.types.TEXT1} key={column.id}>
-                  {column.type}: {column.value ? column.value : "N/A"}
-                </Text>
-              ))} */}
-            </Box>
-          ))
-        ) : (
-          <p>No results</p>
-        )}
-      </Box>
-    </div>
+    </ThemeProvider>
   );
 }
 
