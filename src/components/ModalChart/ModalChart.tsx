@@ -24,15 +24,12 @@ ChartJS.register(
 const ModalChart = ({ forecast }) => {
   useEffect(() => {}, [forecast]);
 
-  console.log("forecastaaaaa", forecast);
   if (!forecast || forecast.length === 0) {
     return <div>Loading chart...</div>; // Adicionando uma mensagem de carregamento enquanto os dados não estão disponíveis
   }
   // Preparando os dados para o gráfico
   const labels = forecast.map((hour: any) => `${hour.hour}:00`);
   const temperatures = forecast.map((hour: any) => hour.temperatureC);
-  console.log("temperatures", temperatures);
-  console.log("labels", labels);
 
   const data = {
     labels: labels,
@@ -40,10 +37,12 @@ const ModalChart = ({ forecast }) => {
       {
         label: "Temperatura (°C)",
         data: temperatures,
+        borderWidth: 2,
         pointStyle: "line",
+        pointRadius: 0,
         fill: false,
         borderColor: "rgb(75, 192, 192)",
-        tension: 0.9,
+        tension: 0.7,
       },
     ],
   };

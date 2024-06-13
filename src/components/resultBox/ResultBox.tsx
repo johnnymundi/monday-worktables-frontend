@@ -3,7 +3,7 @@ import { Heading } from "monday-ui-react-core/next";
 import React, { useState } from "react";
 import ItemModal from "../item-modal/ItemModal"; // Certifique-se de que o caminho está correto
 
-const ResultBox = ({ resultData }) => {
+const ResultBox = ({ resultData, regions, subRegions }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -44,6 +44,8 @@ const ResultBox = ({ resultData }) => {
       {selectedItem && (
         <ItemModal
           item={selectedItem}
+          regions={regions}
+          subRegions={subRegions}
           isOpen={isModalOpen}
           onClose={closeModal}
         />

@@ -30,7 +30,7 @@ function App() {
   const [resultData, setResultData] = useState<any[]>([]); // Explicit any array type
   const [columns, setColumns] = useState<any[]>([]);
   const [regions, setRegions] = useState<any[]>([]);
-  const [subRegions, setSubRegions] = useState<any[]>([]);
+  const [subRegions, setSubRegions] = useState<any>(null);
 
   const main = `query {
     boards(ids: 6756792083) {
@@ -61,6 +61,20 @@ function App() {
           apiVersion: "2023-10",
         });
         setBoardData(columnsRes.data.boards[0]);
+        console.log("boardData", boardData);
+
+        // converting regions
+        setRegions(
+          JSON.parse(columnsRes.data.boards[0].columns[1].settings_str)
+        );
+
+        // converting subregions
+        setSubRegions(
+          JSON.parse(columnsRes.data.boards[0].columns[2].settings_str)
+        );
+
+        console.log("regions", regions);
+        console.log("subRegions", subRegions);
 
         setColumns(
           columnsRes.data.boards[0].columns
@@ -71,9 +85,6 @@ function App() {
               return item.id;
             })
         );
-
-        setRegions(columnsRes.data.boards[0].columns[1]);
-        setSubRegions(columnsRes.data.boards[0].columns[2]);
       } catch (error: any) {
         console.error("Error fetching data:", error);
       }
@@ -141,7 +152,11 @@ function App() {
     >
       <div className="main">
         <SeachBox searchTerm={searchTerm} onSearchTermChange={setSearchTerm} />
-        <ResultBox resultData={resultData} />
+        <ResultBox
+          resultData={resultData}
+          regions={regions}
+          subRegions={subRegions}
+        />
       </div>
     </ThemeProvider>
   );
