@@ -33,6 +33,44 @@ interface Props {
   onClose: () => void;
 }
 
+interface WeatherRes {
+  tempC: number;
+  windKPH: number;
+  humidity: number;
+  feelsLikeC: number;
+  condition: {
+    text: string;
+    icon: string;
+  };
+}
+
+interface ForeCastRes {
+  day: {
+    maxTempC: number;
+    minTempC: number;
+    avgHumidity: number;
+    avgTempC: number;
+    condition: {
+      text: string;
+      icon: string;
+    };
+  };
+  hour: [
+    {
+      hour: number;
+      condition: {
+        text: string;
+        icon: string;
+      };
+      chanceRain: number;
+      feelsLikeC: number;
+      precipitationMM: number;
+      temperatureC: number;
+      windKPH: number;
+    }
+  ];
+}
+
 const ItemModal: React.FC<Props> = ({
   item,
   regions,
@@ -40,13 +78,13 @@ const ItemModal: React.FC<Props> = ({
   isOpen,
   onClose,
 }) => {
-  const [weather, setWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
+  const [weather, setWeather] = useState<WeatherRes>();
+  const [forecast, setForecast] = useState<ForeCastRes>();
   const [location, setLocation] = useState(null);
   const [area, setArea] = useState("");
   const [population, setPopulation] = useState("");
-  const [currentRegion, setCurrentRegion] = useState<number | null>(null);
-  const [currentSubRegion, setCurrentSubRegion] = useState<number | null>(null);
+  const [currentRegion, setCurrentRegion] = useState<number>(-1); // to garantee not es-lint error
+  const [currentSubRegion, setCurrentSubRegion] = useState<number>(-1); // to garantee not es-lint error
 
   useEffect(() => {
     setCurrentRegion(JSON.parse(item.column_values[0].value).index);
@@ -68,6 +106,8 @@ const ItemModal: React.FC<Props> = ({
     const getWeather = async (country: any) => {
       try {
         const response = await DataService.get(`/forecast/${country}`);
+
+        console.log("forecast", response.forecast);
 
         setWeather(response.weather);
         setForecast(response.forecast);
