@@ -1,37 +1,43 @@
-import React from "react";
-import { Dialog, DialogContentContainer, Text } from "monday-ui-react-core";
+import React, { useEffect } from "react";
+import { Modal, Text, ModalContent } from "monday-ui-react-core";
+
+import DataService from "../../services/dataService";
 
 const ItemModal = ({ item, isOpen, onClose }) => {
   if (!isOpen) return null;
+  console.log("item", item);
+
+  useEffect(() => {
+    const getWeather = async (country: string) => {
+      const res = await DataService.get(`/weather/${country}`);
+      console.log("res", res);
+    };
+
+    getWeather(item.column_values[2].id);
+  }, [item]);
+
+  console.log("item", item.capital);
 
   return (
     <div style={{ zIndex: 1000, position: "relative" }}>
-      <Dialog
-        content={
-          <DialogContentContainer>
-            <Text>{item.name}</Text>
-            {item.column_values.map((column) => (
-              <Text key={column.id}>
-                {column.type}: {column.value ? column.value : "N/A"}
-              </Text>
-            ))}
-          </DialogContentContainer>
-        }
-        hideTrigger={["click"]}
-        modifiers={[
-          {
-            name: "preventOverflow",
-            options: {
-              mainAxis: false,
-            },
-          },
-        ]}
-        position="right"
-        shouldShowOnMount={isOpen}
-        showTrigger={["click"]}
+      <Modal
+        contentSpacing
+        description="Subtitle description text goes here"
+        id="story-book-modal"
         onClose={onClose}
-        overlay={{ zIndex: 1000 }} // Ensuring the overlay has a high z-index
-      />
+        title={item.name}
+        triggerElement={undefined}
+        show={isOpen}
+      >
+        <ModalContent>
+          <Text>{item.name}</Text>
+          {item.column_values.map((column) => (
+            <Text key={column.id}>
+              {column.id}: {column.value ? column.value.substr(0, 30) : "N/A"}
+            </Text>
+          ))}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

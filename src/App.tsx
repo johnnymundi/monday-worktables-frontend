@@ -71,9 +71,6 @@ function App() {
               return item.id;
             })
         );
-        console.log("columnsRes", columnsRes);
-        console.log("labels", columnsRes.data.boards[0].columns[1]);
-        //const columnLabels = {};
 
         setRegions(columnsRes.data.boards[0].columns[1]);
         setSubRegions(columnsRes.data.boards[0].columns[2]);
@@ -86,8 +83,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("searchTerm", searchTerm);
-    console.log("columns", columns);
     const handleSearch = async () => {
       if (searchTerm) {
         // dynamic rules for searching the term in every column (except location)
@@ -97,7 +92,6 @@ function App() {
               `{ column_id: "${column}", compare_value: "${searchTerm}" }`
           )
           .join(", ");
-        console.log("rules", rules);
 
         const searchQuery = `query {
           boards(ids: 6756792083) {
@@ -114,14 +108,11 @@ function App() {
             }
           }    
         }`;
-        console.log("searchQuery", searchQuery);
 
         try {
           const searchRes = await monday.api(searchQuery, {
             apiVersion: "2023-10",
           });
-          console.log("searchRes", searchRes);
-          console.log("searchRes", searchRes.data.boards[0].items_page.items);
 
           setResultData(searchRes.data.boards[0].items_page.items);
         } catch (error: any) {
