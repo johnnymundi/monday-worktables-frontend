@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import { ForeCastHour } from "../../definitions/interfaces";
 
 ChartJS.register(
   CategoryScale,
@@ -21,15 +22,19 @@ ChartJS.register(
   Legend
 );
 
-const ModalChart = ({ forecast }) => {
+interface Props {
+  forecast: ForeCastHour[];
+}
+
+const ModalChart: React.FC<Props> = ({ forecast }) => {
   useEffect(() => {}, [forecast]);
 
   if (!forecast || forecast.length === 0) {
     return <div>Loading chart...</div>; // Adicionando uma mensagem de carregamento enquanto os dados não estão disponíveis
   }
   // Preparando os dados para o gráfico
-  const labels = forecast.map((hour: any) => `${hour.hour}:00`);
-  const temperatures = forecast.map((hour: any) => hour.temperatureC);
+  const labels = forecast.map((hour: ForeCastHour) => `${hour.hour}:00`);
+  const temperatures = forecast.map((hour: ForeCastHour) => hour.temperatureC);
 
   const data = {
     labels: labels,

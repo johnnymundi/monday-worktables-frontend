@@ -1,14 +1,19 @@
 import { Search } from "monday-ui-react-core";
 import React, { useEffect, useState } from "react";
 
-const SeachBox = ({ searchTerm, onSearchTermChange }) => {
+interface Props {
+  searchTerm: string;
+  onSearchTermChange: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const SeachBox: React.FC<Props> = ({ searchTerm, onSearchTermChange }) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
 
   useEffect(() => {
     setLocalSearchTerm(searchTerm);
   }, [searchTerm]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: string) => {
     setLocalSearchTerm(e);
     onSearchTermChange(e);
   };

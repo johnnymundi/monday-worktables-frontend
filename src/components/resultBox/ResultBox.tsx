@@ -1,13 +1,24 @@
-import { Box, Text, Clickable } from "monday-ui-react-core";
+import { Box, Clickable } from "monday-ui-react-core";
 import { Heading } from "monday-ui-react-core/next";
 import React, { useState } from "react";
-import ItemModal from "../item-modal/ItemModal"; // Certifique-se de que o caminho está correto
+import ItemModal from "../item-modal/ItemModal";
+import {
+  ItemType,
+  RegionType,
+  SubRegionType,
+} from "../../definitions/interfaces";
 
-const ResultBox = ({ resultData, regions, subRegions }) => {
-  const [selectedItem, setSelectedItem] = useState(null);
+interface Props {
+  resultData: ItemType[];
+  regions: RegionType[]; // Substitua RegionType pelo tipo correto das regiões
+  subRegions: SubRegionType[]; // Substitua SubRegionType pelo tipo correto das sub-regiões
+}
+
+const ResultBox: React.FC<Props> = ({ resultData, regions, subRegions }) => {
+  const [selectedItem, setSelectedItem] = useState<ItemType>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleModal = (item) => {
+  const handleModal = (item: ItemType) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };

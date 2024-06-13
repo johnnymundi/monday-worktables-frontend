@@ -26,9 +26,9 @@ import {
 } from "../../definitions/interfaces";
 
 interface Props {
-  item: ItemType; // Substitua ItemType pelo tipo correto do seu item
-  regions: RegionType[]; // Substitua RegionType pelo tipo correto das regiões
-  subRegions: SubRegionType[]; // Substitua SubRegionType pelo tipo correto das sub-regiões
+  item: ItemType;
+  regions: RegionType;
+  subRegions: SubRegionType;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -45,8 +45,8 @@ const ItemModal: React.FC<Props> = ({
   const [location, setLocation] = useState(null);
   const [area, setArea] = useState(null);
   const [population, setPopulation] = useState(null);
-  const [currentRegion, setCurrentRegion] = useState("");
-  const [currentSubRegion, setCurrentSubRegion] = useState("");
+  const [currentRegion, setCurrentRegion] = useState<number | null>(null);
+  const [currentSubRegion, setCurrentSubRegion] = useState<number | null>(null);
 
   useEffect(() => {
     console.log("item", item);
@@ -78,11 +78,11 @@ const ItemModal: React.FC<Props> = ({
 
   if (!isOpen || !weather || !forecast || !location) return null; // Verificação inicial para garantir que todos os dados necessários estão carregados
 
-  const getRegionLabel = (index) => {
+  const getRegionLabel = (index: number) => {
     return regions.labels[index] || "Unknown region";
   };
 
-  const getSubRegionLabel = (index) => {
+  const getSubRegionLabel = (index: number) => {
     return subRegions.labels[index] || "Unknown region";
   };
 

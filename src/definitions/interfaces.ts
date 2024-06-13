@@ -1,10 +1,10 @@
-export interface ILocation {
+export interface Location {
   country: string;
   capital: string;
   region: string;
 }
 
-export interface IWeather {
+export interface Weather {
   currentTemperature: number;
   windKPH: number;
   condition: {
@@ -15,7 +15,7 @@ export interface IWeather {
   precipMM: number;
 }
 
-export interface IForecast {
+export interface Forecast {
   day: {
     maxTemp: number;
     minTem: number;
@@ -27,12 +27,34 @@ export interface IForecast {
   };
   hour: [
     {
+      hour: number;
       condition: {
         text: string;
         icon: string;
       };
-      temperature: number;
-      feelsLike: number;
+      chanceRain: number;
+      feelsLikeC: number;
+      precipitationMM: number;
+      temperatureC: number;
+      windKPH: number;
+    }
+  ];
+}
+
+export interface ForeCastHour {
+  temperatureC: number; // somehow, it needs another temperatureC to not bug the typescript in modal
+  hour: [
+    {
+      hour: number;
+      condition: {
+        text: string;
+        icon: string;
+      };
+      chanceRain: number;
+      feelsLikeC: number;
+      precipitationMM: number;
+      temperatureC: number;
+      windKPH: number;
     }
   ];
 }
@@ -40,17 +62,15 @@ export interface IForecast {
 export interface ItemType {
   id: string;
   name: string;
-  column_values: [
-    {
-      id: string;
-      type: string;
-      value: string;
-    }
-  ];
+  column_values: Array<{
+    id: string;
+    type: string;
+    value: string;
+  }>;
 }
 
 export interface RegionType {
-  done_colors: Array<number>;
+  done_colors: number[];
   labels: { [key: number]: string };
   label_colors: {
     color: string;
