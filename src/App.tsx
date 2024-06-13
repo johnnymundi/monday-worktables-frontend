@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Box, Flex, Loader, Text } from "monday-ui-react-core";
+import { Box, Loader } from "monday-ui-react-core";
 import "./App.css";
 
 import { ThemeProvider } from "monday-ui-react-core";
@@ -73,9 +73,6 @@ function App() {
           JSON.parse(columnsRes.data.boards[0].columns[2].settings_str)
         );
 
-        console.log("regions", regions);
-        console.log("subRegions", subRegions);
-
         setColumns(
           columnsRes.data.boards[0].columns
             .filter(
@@ -139,9 +136,9 @@ function App() {
 
   if (!boardData) {
     return (
-      <Flex align="center" justify="center" className="loading-box">
+      <Box className="loading-box">
         <Loader color="var(--primary-color)" size={40} />
-      </Flex>
+      </Box>
     );
   }
 
@@ -150,14 +147,19 @@ function App() {
       themeConfig={context.themeConfig}
       systemTheme={context.theme}
     >
-      <div className="main">
-        <SeachBox searchTerm={searchTerm} onSearchTermChange={setSearchTerm} />
-        <ResultBox
-          resultData={resultData}
-          regions={regions}
-          subRegions={subRegions}
-        />
-      </div>
+      <Box className="main">
+        <Box className="wrapper">
+          <SeachBox
+            searchTerm={searchTerm}
+            onSearchTermChange={setSearchTerm}
+          />
+          <ResultBox
+            resultData={resultData}
+            regions={regions}
+            subRegions={subRegions}
+          />
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 }
