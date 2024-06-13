@@ -39,6 +39,7 @@ const App: React.FC<Props> = () => {
   const [columns, setColumns] = useState<any[]>([]);
   const [regions, setRegions] = useState<any[]>([]);
   const [subRegions, setSubRegions] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const main = `query {
     boards(ids: 6756792083) {
@@ -88,13 +89,18 @@ const App: React.FC<Props> = () => {
             })
         );
       } catch (error: any) {
-        console.error("Error fetching data:", error);
+        setError("Failed to fetch data. Please try again later.");
       }
     };
 
     fetchData();
   }, []);
 
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const handleSearch = async () => {
       if (searchTerm) {

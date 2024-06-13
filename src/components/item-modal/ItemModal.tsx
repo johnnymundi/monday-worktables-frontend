@@ -83,8 +83,8 @@ const ItemModal: React.FC<Props> = ({
   const [location, setLocation] = useState(null);
   const [area, setArea] = useState("");
   const [population, setPopulation] = useState("");
-  const [currentRegion, setCurrentRegion] = useState<number>(-1); // to garantee not es-lint error
-  const [currentSubRegion, setCurrentSubRegion] = useState<number>(-1); // to garantee not es-lint error
+  const [currentRegion, setCurrentRegion] = useState<number>(-1); // to garantee no es-lint error
+  const [currentSubRegion, setCurrentSubRegion] = useState<number>(-1); // to garantee no es-lint error
 
   useEffect(() => {
     setCurrentRegion(JSON.parse(item.column_values[0].value).index);
@@ -122,8 +122,6 @@ const ItemModal: React.FC<Props> = ({
     }
   }, [item, isOpen, subRegions, regions]);
 
-  if (!isOpen || !weather || !forecast || !location) return null;
-
   const getRegionLabel = (index: number) => {
     return regions.labels[index] || "Unknown region";
   };
@@ -131,6 +129,8 @@ const ItemModal: React.FC<Props> = ({
   const getSubRegionLabel = (index: number) => {
     return subRegions.labels[index] || "Unknown region";
   };
+
+  if (!isOpen || !weather || !forecast || !location) return null;
 
   return (
     <Modal
