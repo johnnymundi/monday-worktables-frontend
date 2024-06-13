@@ -43,6 +43,8 @@ const ItemModal: React.FC<Props> = ({
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [location, setLocation] = useState(null);
+  const [area, setArea] = useState(null);
+  const [population, setPopulation] = useState(null);
   const [currentRegion, setCurrentRegion] = useState("");
   const [currentSubRegion, setCurrentSubRegion] = useState("");
 
@@ -51,10 +53,9 @@ const ItemModal: React.FC<Props> = ({
     console.log("regions", regions);
     setCurrentRegion(JSON.parse(item.column_values[0].value).index);
     setCurrentSubRegion(JSON.parse(item.column_values[1].value).index);
-    console.log("subRegions", subRegions);
-    console.log("currentRegion", JSON.parse(item.column_values[0].value));
-    console.log("currentRegion", currentRegion);
-    console.log("currentSubRegion", currentSubRegion);
+    setArea(item.column_values[14].value.replace(/"/g, ""));
+    setPopulation(item.column_values[13].value.replace(/"/g, ""));
+
     const getWeather = async (country: any) => {
       try {
         const response = await DataService.get(`/forecast/${country}`);
@@ -149,7 +150,7 @@ const ItemModal: React.FC<Props> = ({
                   </Box>
                   <Box className="geo-cell">
                     <Box className="cell-title">
-                      <Text type={Text.types.TEXT1}>SubRegion</Text>
+                      <Text type={Text.types.TEXT1}>Subregion</Text>
                     </Box>
                     <Box className="cell-info" border="black">
                       <Text type={Text.types.TEXT1}>
@@ -177,11 +178,64 @@ const ItemModal: React.FC<Props> = ({
                       </Text>
                     </Box>
                   </Box>
+                  <Box className="geo-cell">
+                    <Box className="cell-title">
+                      <Text type={Text.types.TEXT1}>Area</Text>
+                    </Box>
+                    <Box className="cell-info" border="black">
+                      <Text type={Text.types.TEXT1}>
+                        {parseInt(area).toLocaleString()}
+                      </Text>
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
             </TabPanel>
-            <TabPanel className="monday-storybook-tabs_bg-color">
-              Third slide
+            <TabPanel className="geo">
+              <Box className="geo-wrapper">
+                <Box className="geo-card">
+                  <Box className="geo-cell">
+                    <Box className="cell-title">
+                      <Text type={Text.types.TEXT1}>Population</Text>
+                    </Box>
+                    <Box className="cell-info" border="black">
+                      <Text type={Text.types.TEXT1}>
+                        {parseInt(population).toLocaleString()}
+                      </Text>
+                    </Box>
+                  </Box>
+                  <Box className="geo-cell">
+                    <Box className="cell-title">
+                      <Text type={Text.types.TEXT1}>Population Density</Text>
+                    </Box>
+                    <Box className="cell-info" border="black">
+                      <Text type={Text.types.TEXT1}>
+                        {item.column_values[15].value.replace(/"/g, "")}
+                      </Text>
+                    </Box>
+                  </Box>
+                  <Box className="geo-cell">
+                    <Box className="cell-title">
+                      <Text type={Text.types.TEXT1}>Birthrate</Text>
+                    </Box>
+                    <Box className="cell-info" border="black">
+                      <Text type={Text.types.TEXT1}>
+                        {item.column_values[18].value.replace(/"/g, "")}
+                      </Text>
+                    </Box>
+                  </Box>
+                  <Box className="geo-cell">
+                    <Box className="cell-title">
+                      <Text type={Text.types.TEXT1}>Deathrate</Text>
+                    </Box>
+                    <Box className="cell-info" border="black">
+                      <Text type={Text.types.TEXT1}>
+                        {item.column_values[19].value.replace(/"/g, "")}
+                      </Text>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
             </TabPanel>
           </TabPanels>
         </TabsContext>
