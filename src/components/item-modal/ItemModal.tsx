@@ -207,11 +207,7 @@ const ItemModal: React.FC<Props> = ({
                       <Text type={Text.types.TEXT1}>Population</Text>
                     </Box>
                     <Box className="cell-info" border="black">
-                      <Text type={Text.types.TEXT1}>
-                        {population
-                          ? parseInt(population).toLocaleString()
-                          : "No info available"}
-                      </Text>
+                      <Text type={Text.types.TEXT1}>{population}</Text>
                     </Box>
                   </Box>
                   <Box className="geo-cell">
