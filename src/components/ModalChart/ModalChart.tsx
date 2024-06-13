@@ -30,9 +30,8 @@ const ModalChart: React.FC<Props> = ({ forecast }) => {
   useEffect(() => {}, [forecast]);
 
   if (!forecast || forecast.length === 0) {
-    return <div>Loading chart...</div>; // Adicionando uma mensagem de carregamento enquanto os dados não estão disponíveis
+    return <div>Loading chart...</div>; // just for debugging (kind of)
   }
-  // Preparando os dados para o gráfico
   const labels = forecast.map((hour: ForeCastHour) => `${hour.hour}:00`);
   const temperatures = forecast.map((hour: ForeCastHour) => hour.temperatureC);
 

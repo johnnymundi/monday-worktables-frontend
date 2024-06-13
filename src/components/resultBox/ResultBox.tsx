@@ -11,8 +11,8 @@ import "./ResultBox.css";
 
 interface Props {
   resultData: ItemType[];
-  regions: RegionType[]; // Substitua RegionType pelo tipo correto das regiões
-  subRegions: SubRegionType[]; // Substitua SubRegionType pelo tipo correto das sub-regiões
+  regions: RegionType[];
+  subRegions: SubRegionType[];
 }
 
 const ResultBox: React.FC<Props> = ({ resultData, regions, subRegions }) => {

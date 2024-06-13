@@ -15,6 +15,7 @@ const monday = mondaySdk();
 const useGetContext = () => {
   const [context, setContext] = useState({});
 
+  // Monday UI theme configuration
   useEffect(() => {
     monday.listen("context", (res) => {
       setContext(res.data);
@@ -26,15 +27,15 @@ const useGetContext = () => {
 
 interface Props {
   resultData: ItemType[];
-  regions: RegionType[]; // Substitua RegionType pelo tipo correto das regiões
-  subRegions: SubRegionType[]; // Substitua SubRegionType pelo tipo correto das sub-regiões
+  regions: RegionType[];
+  subRegions: SubRegionType[];
 }
 
 const App: React.FC<Props> = () => {
   const context = useGetContext();
-  const [boardData, setBoardData] = useState<any>(null); // Explicit any type
-  const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para armazenar o termo de pesquisa
-  const [resultData, setResultData] = useState<any[]>([]); // Explicit any array type
+  const [boardData, setBoardData] = useState<any>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [resultData, setResultData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [regions, setRegions] = useState<any[]>([]);
   const [subRegions, setSubRegions] = useState<any>(null);
@@ -69,12 +70,10 @@ const App: React.FC<Props> = () => {
         });
         setBoardData(columnsRes.data.boards[0]);
 
-        // converting regions
         setRegions(
           JSON.parse(columnsRes.data.boards[0].columns[1].settings_str)
         );
 
-        // converting subregions
         setSubRegions(
           JSON.parse(columnsRes.data.boards[0].columns[2].settings_str)
         );
@@ -99,7 +98,7 @@ const App: React.FC<Props> = () => {
   useEffect(() => {
     const handleSearch = async () => {
       if (searchTerm) {
-        // dynamic rules for searching the term in every column (except location)
+        // dynamic rules for searching the term in every column (except location, of course)
         const rules = columns
           .map(
             (column) =>
@@ -133,7 +132,7 @@ const App: React.FC<Props> = () => {
           console.error("Error searching data:", error);
         }
       } else {
-        setResultData([]); // Limpa os resultados da pesquisa se o campo de pesquisa estiver vazio
+        setResultData([]);
       }
     };
 

@@ -43,22 +43,32 @@ const ItemModal: React.FC<Props> = ({
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [location, setLocation] = useState(null);
-  const [area, setArea] = useState(null);
-  const [population, setPopulation] = useState(null);
+  const [area, setArea] = useState("");
+  const [population, setPopulation] = useState("");
   const [currentRegion, setCurrentRegion] = useState<number | null>(null);
   const [currentSubRegion, setCurrentSubRegion] = useState<number | null>(null);
 
   useEffect(() => {
     setCurrentRegion(JSON.parse(item.column_values[0].value).index);
     setCurrentSubRegion(JSON.parse(item.column_values[1].value).index);
-    setArea(item.column_values[14].value.replace(/"/g, ""));
-    setPopulation(item.column_values[13].value.replace(/"/g, ""));
+
+    // some info are null by default (probably)
+    const areaInfo =
+      item.column_values[14].value !== null
+        ? item.column_values[14].value.replace(/"/g, "")
+        : "";
+    setArea(areaInfo);
+
+    const popInfo =
+      item.column_values[13].value !== null
+        ? item.column_values[13].value.replace(/"/g, "")
+        : "No info available";
+    setPopulation(popInfo);
 
     const getWeather = async (country: any) => {
       try {
         const response = await DataService.get(`/forecast/${country}`);
 
-        // Setando os estados com os dados recebidos
         setWeather(response.weather);
         setForecast(response.forecast);
         setLocation(response.location);
@@ -67,13 +77,12 @@ const ItemModal: React.FC<Props> = ({
       }
     };
 
-    // Chamando a função para buscar dados se o modal estiver aberto e o item existir
     if (isOpen && item && item.name) {
       getWeather(item.name);
     }
-  }, [item, isOpen, subRegions, regions]); // Dependências do useEffect para garantir que ele seja chamado quando necessário
+  }, [item, isOpen, subRegions, regions]);
 
-  if (!isOpen || !weather || !forecast || !location) return null; // Verificação inicial para garantir que todos os dados necessários estão carregados
+  if (!isOpen || !weather || !forecast || !location) return null;
 
   const getRegionLabel = (index: number) => {
     return regions.labels[index] || "Unknown region";
@@ -181,7 +190,9 @@ const ItemModal: React.FC<Props> = ({
                     </Box>
                     <Box className="cell-info" border="black">
                       <Text type={Text.types.TEXT1}>
-                        {parseInt(area).toLocaleString()}
+                        {area
+                          ? parseInt(area).toLocaleString()
+                          : "No info available"}
                       </Text>
                     </Box>
                   </Box>
@@ -197,7 +208,9 @@ const ItemModal: React.FC<Props> = ({
                     </Box>
                     <Box className="cell-info" border="black">
                       <Text type={Text.types.TEXT1}>
-                        {parseInt(population).toLocaleString()}
+                        {population
+                          ? parseInt(population).toLocaleString()
+                          : "No info available"}
                       </Text>
                     </Box>
                   </Box>
@@ -207,7 +220,9 @@ const ItemModal: React.FC<Props> = ({
                     </Box>
                     <Box className="cell-info" border="black">
                       <Text type={Text.types.TEXT1}>
-                        {item.column_values[15].value.replace(/"/g, "")}
+                        {item.column_values[15].value
+                          ? item.column_values[15].value.replace(/"/g, "")
+                          : "No info available"}
                       </Text>
                     </Box>
                   </Box>
@@ -217,7 +232,9 @@ const ItemModal: React.FC<Props> = ({
                     </Box>
                     <Box className="cell-info" border="black">
                       <Text type={Text.types.TEXT1}>
-                        {item.column_values[18].value.replace(/"/g, "")}
+                        {item.column_values[18].value
+                          ? item.column_values[18].value.replace(/"/g, "")
+                          : "No info available"}
                       </Text>
                     </Box>
                   </Box>
@@ -227,7 +244,9 @@ const ItemModal: React.FC<Props> = ({
                     </Box>
                     <Box className="cell-info" border="black">
                       <Text type={Text.types.TEXT1}>
-                        {item.column_values[19].value.replace(/"/g, "")}
+                        {item.column_values[19].value
+                          ? item.column_values[19].value.replace(/"/g, "")
+                          : "No info available"}
                       </Text>
                     </Box>
                   </Box>
