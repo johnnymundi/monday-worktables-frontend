@@ -7,6 +7,7 @@ import {
   RegionType,
   SubRegionType,
 } from "../../definitions/interfaces";
+import "./ResultBox.css";
 
 interface Props {
   resultData: ItemType[];
@@ -48,6 +49,7 @@ const ResultBox: React.FC<Props> = ({ resultData, regions, subRegions }) => {
           backgroundColor="Box-module_bgPrimaryBackgroundColor"
           border="Box-module_border"
           rounded="Box-module_roundedMedium"
+          className="no-result"
         >
           <Heading>No results</Heading>
         </Box>

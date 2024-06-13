@@ -8,6 +8,7 @@ import mondaySdk from "monday-sdk-js";
 
 import SeachBox from "./components/search-box/SearchBox";
 import ResultBox from "./components/resultBox/ResultBox";
+import { ItemType, RegionType, SubRegionType } from "./definitions/interfaces";
 
 const monday = mondaySdk();
 
@@ -23,7 +24,13 @@ const useGetContext = () => {
   return context;
 };
 
-function App() {
+interface Props {
+  resultData: ItemType[];
+  regions: RegionType[]; // Substitua RegionType pelo tipo correto das regiões
+  subRegions: SubRegionType[]; // Substitua SubRegionType pelo tipo correto das sub-regiões
+}
+
+const App: React.FC<Props> = () => {
   const context = useGetContext();
   const [boardData, setBoardData] = useState<any>(null); // Explicit any type
   const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para armazenar o termo de pesquisa
@@ -162,6 +169,6 @@ function App() {
       </Box>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

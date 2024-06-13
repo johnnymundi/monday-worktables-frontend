@@ -1,0 +1,13 @@
+.result-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px 32px;
+}
+
+.no-result {
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

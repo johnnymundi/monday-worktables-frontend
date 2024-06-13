@@ -21,7 +21,7 @@ const SeachBox: React.FC<Props> = ({ searchTerm, onSearchTermChange }) => {
   return (
     <div className="search-box">
       <Search
-        placeholder="Busque informações do país"
+        placeholder="Search information about a country"
         value={localSearchTerm}
         onChange={handleChange}
       />
