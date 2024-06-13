@@ -68,7 +68,6 @@ const App: React.FC<Props> = () => {
           apiVersion: "2023-10",
         });
         setBoardData(columnsRes.data.boards[0]);
-        console.log("boardData", boardData);
 
         // converting regions
         setRegions(

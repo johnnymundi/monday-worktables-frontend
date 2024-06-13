@@ -49,8 +49,6 @@ const ItemModal: React.FC<Props> = ({
   const [currentSubRegion, setCurrentSubRegion] = useState<number | null>(null);
 
   useEffect(() => {
-    console.log("item", item);
-    console.log("regions", regions);
     setCurrentRegion(JSON.parse(item.column_values[0].value).index);
     setCurrentSubRegion(JSON.parse(item.column_values[1].value).index);
     setArea(item.column_values[14].value.replace(/"/g, ""));
@@ -62,7 +60,6 @@ const ItemModal: React.FC<Props> = ({
 
         // Setando os estados com os dados recebidos
         setWeather(response.weather);
-        console.log("");
         setForecast(response.forecast);
         setLocation(response.location);
       } catch (error) {

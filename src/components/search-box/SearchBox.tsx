@@ -1,5 +1,6 @@
 import { Search } from "monday-ui-react-core";
 import React, { useEffect, useState } from "react";
+import "./SearchBox.css";
 
 interface Props {
   searchTerm: string;
