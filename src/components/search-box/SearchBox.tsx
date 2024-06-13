@@ -9,7 +9,6 @@ const SeachBox = ({ searchTerm, onSearchTermChange }) => {
   }, [searchTerm]);
 
   const handleChange = (e) => {
-    console.log("e", e);
     setLocalSearchTerm(e);
     onSearchTermChange(e);
   };
